@@ -1,0 +1,8 @@
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+class userProfile(AbstractUser):
+    pass
+#   profile_pic = models.ImageField(default='profile-icon.png', upload_to='profiles/')
+#   email = models.CharField(max_length=30, primary_key=True, null=False, unique=True)

@@ -5,11 +5,13 @@ name = "pypi"
 
 [packages]
 django = "*"
+pillow = "*"
 
 [dev-packages]
 flake8 = "*"
 pytest = "*"
 pytest-django = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.9"
