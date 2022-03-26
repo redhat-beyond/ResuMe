@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 
-def resumeApp(request):
+def Feed(request):
     return render(request, 'Feed/index.html')
