@@ -19,5 +19,5 @@ from Feed import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.resumeApp, name='resumeApp')
+    path('', views.Feed, name='Feed')
 ]
