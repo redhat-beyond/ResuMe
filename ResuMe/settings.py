@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'resumeApp.apps.ResumeappConfig',
+    'direct_message.apps.DirectMessageConfig',
     'users.apps.UsersConfig',
 ]
 
