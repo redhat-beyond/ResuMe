@@ -12,5 +12,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup environment
         run: pipenv sync --dev
+      - name: Apply migrations
+        run: pipenv run python manage.py migrate
       - name: Run PyTest
         run: pipenv run pytest -v

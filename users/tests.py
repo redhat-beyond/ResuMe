@@ -87,3 +87,22 @@ def test_unique_username():
                     email="test@gmail.com")
         user1.save()
         user2.save()
+
+# Test for unique username
+@pytest.mark.django_db
+def test_unique_email():
+    with pytest.raises(IntegrityError):
+        user1 = User(
+                    username="test1",
+                    first_name=FIRSTNAME,
+                    last_name=LASTNAME,
+                    password=PASSWORD,
+                    email=EMAIL)
+        user2 = User(
+                    username="test2",
+                    first_name=FIRSTNAME,
+                    last_name=LASTNAME,
+                    password=PASSWORD,
+                    email=EMAIL)
+        user1.save()
+        user2.save()
