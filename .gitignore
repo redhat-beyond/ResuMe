@@ -130,3 +130,7 @@ dmypy.json
 
 # Vagrant
 .vagrant
+
+# Profile Pics
+media/profile_pics/
+media/files/
