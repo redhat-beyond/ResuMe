@@ -1,5 +1,5 @@
 import pytest
-from .models import Poll, PollFile, Choice
+from .models import Poll, PollFile, Choice, Post, Vote
 from django.contrib.auth.models import User
 
 USERNAME = "testuser"
@@ -38,19 +38,26 @@ def new_choice(new_poll):
 
 
 # Check that the Poll values are the same as the Poll inputs.
-@pytest.mark.django_db()
 def test_new_poll(new_poll):
     assert new_poll.author.username == USERNAME
-    assert new_poll.author.first_name == FIRSTNAME
-    assert new_poll.author.last_name == LASTNAME
-    assert new_poll.author.password == PASSWORD
-    assert new_poll.author.email == EMAIL
     assert new_poll.description == DESCRIPTION
-    assert new_poll.amount_of_voters == 0
+    assert new_poll.get_amount_of_votes() == 0
     assert len(new_poll.pollfile_set.all()) == 0
     assert len(new_poll.choice_set.all()) == 0
+
+
+# Check if the Poll can be referd as post.
+@pytest.mark.django_db()
+def test_poll_is_post(new_poll):
+    assert len(Post.objects.all()) == 0
     new_poll.author.save()
-    assert new_poll.author.profile.profile_pic == 'profile-icon.png'
+    new_poll.save()
+    assert len(Post.objects.all()) == 1
+    post = Post.objects.all().first()
+    assert hasattr(post, 'poll') is True
+    assert hasattr(post, 'resume') is False
+    poll = post.poll
+    assert new_poll == poll
 
 
 # Check if the Poll is saved in the database and accessible via its author.
@@ -60,12 +67,11 @@ def test_persist_poll(new_poll):
     new_poll.author.save()
     new_poll.save()
     assert new_poll in Poll.objects.all()
-    assert new_poll in User.objects.filter(username=USERNAME).first().poll_set.all()
 
 
 # Check if Poll deletion delete only Poll from database.
 @pytest.mark.django_db()
-def test_delete_poll_aouthor(new_poll):
+def test_delete_poll(new_poll):
     user = new_poll.author
     user.save()
     new_poll.save()
@@ -78,7 +84,7 @@ def test_delete_poll_aouthor(new_poll):
 
 # Check if Poll's author deletion delete both the author and the poll.
 @pytest.mark.django_db()
-def test_delete_poll(new_poll):
+def test_delete_polls_aouthor(new_poll):
     user = new_poll.author
     user.save()
     new_poll.save()
@@ -102,7 +108,7 @@ def test_poll_unvalid_args():
 def test_new_pollfile(new_pollFile):
     assert new_pollFile.poll.author.username == USERNAME
     assert new_pollFile.poll.description == DESCRIPTION
-    assert new_pollFile.poll.amount_of_voters == 0
+    assert new_pollFile.poll.get_amount_of_votes() == 0
     assert new_pollFile.file == FILE1
 
 
@@ -200,7 +206,7 @@ def test_pollfile_unvalid_args():
 def test_new_choice(new_choice):
     assert new_choice.poll.author.username == USERNAME
     assert new_choice.poll.description == DESCRIPTION
-    assert new_choice.poll.amount_of_voters == 0
+    assert new_choice.poll.get_amount_of_votes() == 0
     assert new_choice.choice_text == CHOICETEXT1
 
 
@@ -285,25 +291,31 @@ def test_several_choices(new_poll):
     assert len(poll.choice_set.all()) == 2
 
 
-# Check if add_value and percentage functions work as expected.
+# Check if add vote and percentage function work as expected.
+@pytest.mark.django_db()
 def test_addvalue_and_percentage(new_poll):
     poll = new_poll
+    user = poll.author
+    user.save()
+    poll.save()
     choice1 = Choice(poll=poll, choice_text=CHOICETEXT1)
     choice2 = Choice(poll=poll, choice_text=CHOICETEXT2)
-    assert choice1.votes == 0
-    choice1.add_vote()
-    assert choice1.votes == 1
+    choice1.save()
+    choice2.save()
+    assert choice1.get_amount_of_votes() == 0
+    choice1.vote_set.create(voter=user)
+    assert len(choice1.vote_set.all()) == 1
     assert choice1.get_percentage() == 100.0
     assert choice2.get_percentage() == 0
-    assert poll.amount_of_voters == 1
-    choice1.add_vote()
-    choice1.add_vote()
-    choice2.add_vote()
-    assert choice1.votes == 3
-    assert choice2.votes == 1
+    assert poll.get_amount_of_votes() == 1
+    Vote(voter=user, voted_choice=choice1).save()
+    Vote(voter=user, voted_choice=choice1).save()
+    Vote(voter=user, voted_choice=choice2).save()
+    assert choice1.get_amount_of_votes() == 3
+    assert choice2.get_amount_of_votes() == 1
     assert choice1.get_percentage() == 75.0
     assert choice2.get_percentage() == 25.0
-    assert poll.amount_of_voters == 4
+    assert poll.get_amount_of_votes() == 4
 
 
 # verify that it is impossible to create a choice with invalid params.
