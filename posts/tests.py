@@ -53,7 +53,7 @@ def test_new_poll(new_poll):
     assert new_poll.author.profile.profile_pic == 'profile-icon.png'
 
 
-# Check if the Poll is saved in the database and accessible via his author.
+# Check if the Poll is saved in the database and accessible via its author.
 @pytest.mark.django_db()
 def test_persist_poll(new_poll):
     assert new_poll not in Poll.objects.all()
@@ -76,7 +76,7 @@ def test_delete_poll_aouthor(new_poll):
     assert user in User.objects.all()
 
 
-# Check if Poll's author deletion delete both the author and and the poll.
+# Check if Poll's author deletion delete both the author and the poll.
 @pytest.mark.django_db()
 def test_delete_poll(new_poll):
     user = new_poll.author
@@ -89,7 +89,7 @@ def test_delete_poll(new_poll):
     assert user not in User.objects.all()
 
 
-# verify that it is impossible to create a Poll with unvalid params.
+# verify that it is impossible to create a Poll with invalid params.
 def test_poll_unvalid_args():
     with pytest.raises(TypeError):
         Poll(user=USERNAME, description=DESCRIPTION)
@@ -106,7 +106,7 @@ def test_new_pollfile(new_pollFile):
     assert new_pollFile.file == FILE1
 
 
-# Check if the PollFile is saved in the database and accessible via his Poll.
+# Check if the PollFile is saved in the database and accessible via its Poll.
 @pytest.mark.django_db()
 def test_persist_pollfile(new_pollFile):
     assert new_pollFile not in PollFile.objects.all()
@@ -187,7 +187,7 @@ def test_several_pollfiles(new_poll):
     assert len(poll.pollfile_set.all()) == 2
 
 
-# verify that it is impossible to create a PollFile with unvalid params.
+# verify that it is impossible to create a PollFile with invalid params.
 def test_pollfile_unvalid_args():
     with pytest.raises(ValueError):
         PollFile(poll=USERNAME, file=FILE1)
@@ -204,7 +204,7 @@ def test_new_choice(new_choice):
     assert new_choice.choice_text == CHOICETEXT1
 
 
-# Check if the Choice is saved in the database and accessible via his Poll.
+# Check if the Choice is saved in the database and accessible via its Poll.
 @pytest.mark.django_db()
 def test_persist_choice(new_choice):
     assert new_choice not in Choice.objects.all()
@@ -285,7 +285,7 @@ def test_several_choices(new_poll):
     assert len(poll.choice_set.all()) == 2
 
 
-# Check if add_value and percentage functions work as acspected.
+# Check if add_value and percentage functions work as expected.
 def test_addvalue_and_percentage(new_poll):
     poll = new_poll
     choice1 = Choice(poll=poll, choice_text=CHOICETEXT1)
@@ -306,7 +306,7 @@ def test_addvalue_and_percentage(new_poll):
     assert poll.amount_of_voters == 4
 
 
-# verify that it is impossible to create a choice with unvalid params.
+# verify that it is impossible to create a choice with invalid params.
 def test_choice_unvalid_args():
     with pytest.raises(ValueError):
         Choice(poll=USERNAME, choice_text=CHOICETEXT1)
