@@ -131,3 +131,17 @@ class Poll(Post):
 
     def __str__(self):
         return f"Poll {self.post_id} by {self.author}"
+
+
+# -----------------------------PollFile model that saves a file of a Poll-----------------------------
+
+class PollFile(models.Model):
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    file = models.FileField(
+        default=None,
+        upload_to='files',
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'png', 'jpg', 'jpeg'])]
+        )
+
+    def __str__(self):
+        return f"File {self.pk} of {self.poll}"
