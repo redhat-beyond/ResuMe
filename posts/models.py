@@ -110,3 +110,56 @@ class Rating(models.Model):
 
     def get_rating_average(self):
         return (self.design_rating + self.skill_relevance_rating + self.grammar_rating + self.conciseness_rating) / 4
+
+
+# -----------------------------------Poll model inherited from Post-----------------------------------
+
+
+class Poll(Post):
+
+    def __str__(self):
+        return f"Poll {self.post_id} by {self.author}"
+
+    def get_amount_of_votes(self):
+        votes_amount = 0
+        for choice in self.choice_set.all():
+            votes_amount += choice.get_amount_of_votes()
+        return votes_amount
+
+
+# -----------------------------PollFile model that saves a file of a Poll-----------------------------
+
+
+class PollFile(models.Model):
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    file = models.FileField(
+        default=None,
+        upload_to='files',
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'png', 'jpg', 'jpeg'])]
+        )
+
+    def __str__(self):
+        return f"File {self.pk} of {self.poll}"
+
+
+# ------------------------Choice model that stores one choice option of a Poll------------------------
+
+
+class Choice(models.Model):
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    voters = models.ManyToManyField(User, blank=True)
+
+    def __str__(self):
+        return f"'{self.choice_text}' of {self.poll}"
+
+    def get_amount_of_votes(self):
+        return len(self.voters.all())
+
+    # get percentage of voters who voted to this choice
+    def get_percentage(self):
+        total_votes_amount = self.poll.get_amount_of_votes()
+        if total_votes_amount <= 0:
+            return 0
+        else:
+            return (self.get_amount_of_votes() / total_votes_amount) * 100
