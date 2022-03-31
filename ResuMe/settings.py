@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'resumeApp.apps.ResumeappConfig',
+    'posts.apps.PostsConfig',
+    'direct_message.apps.DirectMessageConfig',
     'users.apps.UsersConfig',
 ]
 

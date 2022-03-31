@@ -10,7 +10,7 @@ cd /vagrant
 # Install dependencies with Pipenv
 pipenv sync --dev
 
-# run our app. Nohup "&" are used to let the setup script finish
-# while our app stays up. The app logs will be collected in nohup.out
-nohup pipenv run python manage.py runserver 0.0.0.0:8000 &
-
+# run our app. setsit, the parentheses and "&" are used to perform a "double
+# fork" so that our app stays up after the setup script finishes.
+# The app logs are redirected to the `runserver.log` file.
+(setsid pipenv run python manage.py runserver 0.0.0.0:8000 > runserver.log 2>&1 &)
