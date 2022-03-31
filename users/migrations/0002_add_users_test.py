@@ -2,7 +2,6 @@ from django.db import migrations, transaction
 
 
 class Migration(migrations.Migration):
-    
     dependencies = [
         ('users', '0001_initial'),
     ]
@@ -11,11 +10,11 @@ class Migration(migrations.Migration):
         from django.contrib.auth.models import User
 
         users_test_data = [
-            ("AlonShakaroff","Alon", "Shakaroff", "test$1234" ,"alon@gmail.com", "test/alon.jpg"),
-            ("OmerCohenShor","Omer", "Cohen-Shor", "test$5678" , "omer@gmail.com", "test/omer.jpg"),
-            ("TomerNewman","Tomer", "Newman", "test$8910" , "tomer@gmail.com", "test/tomer.jpg"),
-            ("YuliSuliman","Yuli", "Suliman", "test$3643" , "yuli@gmail.com", "test/yuli.jpg"),
-            ("MatanPeretz","Matan", "Peretz", "test$8979" , "matan@gmail.com", "test/matan.jpg")
+            ("AlonShakaroff", "Alon", "Shakaroff", "test$1234", "alon@gmail.com", "test/alon.jpg"),
+            ("OmerCohenShor", "Omer", "Cohen-Shor", "test$5678", "omer@gmail.com", "test/omer.jpg"),
+            ("TomerNewman", "Tomer", "Newman", "test$8910", "tomer@gmail.com", "test/tomer.jpg"),
+            ("YuliSuliman", "Yuli", "Suliman", "test$3643", "yuli@gmail.com", "test/yuli.jpg"),
+            ("MatanPeretz", "Matan", "Peretz", "test$8979", "matan@gmail.com", "test/matan.jpg")
         ]
 
         with transaction.atomic():
@@ -25,8 +24,6 @@ class Migration(migrations.Migration):
                 user.profile.bio = "Hi my name is " + FIRSTNAME + " " + LASTNAME
                 user.profile.profile_pic = PROFILE_PIC
                 user.profile.save()
-                
-
     operations = [
         migrations.RunPython(generate_user_test_data),
     ]
