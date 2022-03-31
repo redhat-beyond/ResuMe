@@ -1,7 +1,5 @@
 import pytest
-from .models import Post
-from .models import Resume
-from .models import Rating
+from .models import Post, Resume, Rating, Poll
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -57,6 +55,18 @@ def persist_rating(new_rating):
     new_rating.resume.save()
     new_rating.save()
     return new_rating
+
+
+@pytest.fixture
+def new_poll(new_user):
+    return Poll(author=new_user, description=DESCRIPTION)
+
+
+@pytest.fixture
+def persist_poll(new_poll):
+    new_poll.author.save()
+    new_poll.save()
+    return new_poll
 
 
 def new_user_with_name_and_email(user_name, email):
@@ -226,3 +236,48 @@ class TestRating:
     # Check if the Rating average function works properly
     def test_rating_avg_function(self, persist_rating):
         assert persist_rating.get_rating_average() == 5
+
+
+# -------------------------------------------- Poll tests --------------------------------------------
+@pytest.mark.django_db()
+class TestPoll:
+    # Check that the Poll values are the same as the Poll inputs.
+    def test_new_poll_input_same_as_output(self, new_poll):
+        assert new_poll.author.username == USERNAME
+        assert new_poll.description == DESCRIPTION
+
+    # Check if the Poll is saved in the database.
+    def test_persist_poll(self, persist_poll):
+        assert persist_poll in Poll.objects.all()
+
+    # Check if the Poll can be referred as post.
+    def test_inheritance_of_poll_from_post(self, persist_poll):
+        assert Post.objects.filter(poll=persist_poll).exists()
+        post = Post.objects.filter(poll=persist_poll).first()
+        assert hasattr(post, 'poll')
+        assert not hasattr(post, 'resume')
+
+    # Check if Poll deletion delete only Poll from database.
+    def test_delete_poll(self, persist_poll):
+        assert persist_poll in Poll.objects.all()
+        assert persist_poll.author in User.objects.all()
+        persist_poll.delete()
+        assert persist_poll not in Poll.objects.all()
+        assert persist_poll.author in User.objects.all()
+
+    # Check if Poll's author deletion delete both the author and the poll.
+    def test_delete_polls_author(self, persist_poll):
+        assert persist_poll in Poll.objects.all()
+        assert persist_poll.author in User.objects.all()
+        persist_poll.author.delete()
+        assert persist_poll not in Poll.objects.all()
+        assert persist_poll.author not in User.objects.all()
+
+    # verify that it is impossible to create a Poll with invalid parameters.
+    @pytest.mark.parametrize("user, description, expected_error", [
+        (USERNAME, DESCRIPTION, ValueError),
+        (new_user, 6, ValueError),
+        (DESCRIPTION, new_user, ValueError)])
+    def test_poll_invalid_args(self, user, description, expected_error):
+        with pytest.raises(expected_error):
+            Poll(author=user, description=description)
