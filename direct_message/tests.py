@@ -20,24 +20,24 @@ def new_user_reciever():
 
 
 @pytest.fixture
-def message0(new_user_sender, new_user_reciever):
+def new_message(new_user_sender, new_user_reciever):
     return models.Message(sender=new_user_sender,
                           reciever=new_user_reciever,
                           creation_date=CREATION_DATE,
                           message_text='test')
 
 
-def save_a_message(message0):
-    message0.sender.save()
-    message0.reciever.save()
-    message0.save()
+def save_a_message(new_message):
+    new_message.sender.save()
+    new_message.reciever.save()
+    new_message.save()
 
 
-def test_new_message_fields(message0, new_user_sender, new_user_reciever):
-    assert message0.sender == new_user_sender
-    assert message0.reciever == new_user_reciever
-    assert message0.creation_date == CREATION_DATE
-    assert message0.message_text == 'test'
+def test_message_constructor(new_message, new_user_sender, new_user_reciever):
+    assert new_message.sender == new_user_sender
+    assert new_message.reciever == new_user_reciever
+    assert new_message.creation_date == CREATION_DATE
+    assert new_message.message_text == 'test'
 
 
 def is_empty_string(string):
@@ -47,36 +47,36 @@ def is_empty_string(string):
     return True
 
 
-@pytest.mark.parametrize("empty_string", ['', ' ', "     "])
-def test_is_empty_message(message0, empty_string):
-    message0.message_text = empty_string
-    assert is_empty_string(message0.message_text)
+@pytest.mark.parametrize("empty_string", ['', ' ', '     '])
+def test_is_empty_message(new_message, empty_string):
+    new_message.message_text = empty_string
+    assert is_empty_string(new_message.message_text)
 
 
 @pytest.mark.django_db()
-def test_saving_message(message0):
-    save_a_message(message0)
-    assert message0.sender in models.User.objects.all()
-    assert message0.reciever in models.User.objects.all()
-    assert message0 in models.Message.objects.all()
+def test_saving_message(new_message):
+    save_a_message(new_message)
+    assert new_message.sender in models.User.objects.all()
+    assert new_message.reciever in models.User.objects.all()
+    assert new_message in models.Message.objects.all()
 
 
 @pytest.mark.django_db()
-def test_deletion_message(message0):
-    save_a_message(message0)
-    message0.delete()
-    assert message0 not in models.Message.objects.all()
+def test_deletion_message(new_message):
+    save_a_message(new_message)
+    new_message.delete()
+    assert new_message not in models.Message.objects.all()
 
 
 @pytest.mark.django_db()
-def test_deletion_message_after_sender(message0):
-    save_a_message(message0)
-    message0.sender.delete()
-    assert message0 not in models.Message.objects.all()
+def test_deletion_message_after_sender(new_message):
+    save_a_message(new_message)
+    new_message.sender.delete()
+    assert new_message not in models.Message.objects.all()
 
 
 @pytest.mark.django_db()
-def test_deletion_message_after_reciever(message0):
-    save_a_message(message0)
-    message0.reciever.delete()
-    assert message0 not in models.Message.objects.all()
+def test_deletion_message_after_reciever(new_message):
+    save_a_message(new_message)
+    new_message.reciever.delete()
+    assert new_message not in models.Message.objects.all()
