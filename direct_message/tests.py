@@ -14,28 +14,28 @@ def new_user_sender():
 
 
 @pytest.fixture
-def new_user_reciever():
-    return User(username='TestReciever', first_name='Andrew',
+def new_user_receiver():
+    return User(username='TestReceiver', first_name='Andrew',
                 last_name='Glouberman', password='abcd', email='Andrew@email.com')
 
 
 @pytest.fixture
-def new_message(new_user_sender, new_user_reciever):
+def new_message(new_user_sender, new_user_receiver):
     return models.Message(sender=new_user_sender,
-                          reciever=new_user_reciever,
+                          receiver=new_user_receiver,
                           creation_date=CREATION_DATE,
                           message_text='test')
 
 
 def save_a_message(new_message):
     new_message.sender.save()
-    new_message.reciever.save()
+    new_message.receiver.save()
     new_message.save()
 
 
-def test_message_constructor(new_message, new_user_sender, new_user_reciever):
+def test_message_constructor(new_message, new_user_sender, new_user_receiver):
     assert new_message.sender == new_user_sender
-    assert new_message.reciever == new_user_reciever
+    assert new_message.receiver == new_user_receiver
     assert new_message.creation_date == CREATION_DATE
     assert new_message.message_text == 'test'
 
@@ -57,7 +57,7 @@ def test_is_empty_message(new_message, empty_string):
 def test_saving_message(new_message):
     save_a_message(new_message)
     assert new_message.sender in models.User.objects.all()
-    assert new_message.reciever in models.User.objects.all()
+    assert new_message.receiver in models.User.objects.all()
     assert new_message in models.Message.objects.all()
 
 
@@ -76,7 +76,7 @@ def test_deletion_message_after_sender(new_message):
 
 
 @pytest.mark.django_db()
-def test_deletion_message_after_reciever(new_message):
+def test_deletion_message_after_receiver(new_message):
     save_a_message(new_message)
-    new_message.reciever.delete()
+    new_message.receiver.delete()
     assert new_message not in models.Message.objects.all()
