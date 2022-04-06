@@ -33,7 +33,7 @@ def save_a_message(new_message):
     new_message.save()
 
 
-def test_message_constructor(new_message, new_user_sender, new_user_receiver):
+def test_new_message(new_message, new_user_sender, new_user_receiver):
     assert new_message.sender == new_user_sender
     assert new_message.receiver == new_user_receiver
     assert new_message.creation_date == CREATION_DATE
