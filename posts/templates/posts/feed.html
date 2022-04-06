@@ -1,57 +1,6 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}">
-    <meta charset="UTF-8">
-    <meta name="description" content="ResuMe is a platform that allows students and job seekers
-    to share their resume for other users to give their intake on it and review it."> 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResuMe</title>
-    <link rel="icon" href="{% static 'images/thumbnail.png' %}">
-</head>
-<body>
-    <header>
-        <a href="/">
-          <img class="logo-image" src="{% static 'images/headerLogo.png' %}" alt="img_not_found">
-        </a>
-        <h1>
-            Welcome to ResuMe!
-        </h1>
-        <h2 class="description">
-            Want to know what your resume is missing?
-            You have come to the right place! <br>
-            <b class="ResuMe">ResuMe</b> takes the guesswork out of writing a fantastic resume.
-            Instead of wondering how your resume lands,
-            you can simply post it on our platform, and get direct feedback
-            from job seekers and employers alike. <br>
-            So what are you waiting for? Upload your resume now and get started!
-        </h2>
+{% extends "base.html" %}
+{% block styles %}
+{% endblock styles %}
 
-        <hr/>
-
-        <nav>
-            <ul class="nav">
-                <li class="HorizontalBar"><a href="/">Home</a></li>
-                <li class="HorizontalBar"><a href="#MyWallPage">My wall</a></li>
-                <li class="HorizontalBar"><a href="#ExplorePage">Explore</a></li>
-                <li class="HorizontalBar" style="float:right"><a href="#AboutPage">About</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <div class="list">
-            <h1>Group members:</h1>
-            <UL>
-                <LI>Omer Cohen Shor</LI>
-                <LI>Yuli Suliman</LI>
-                <LI>Alon Shakaroff</LI>
-                <LI>Matan Peretz</LI>
-                <LI>Tomer Newman</LI>
-            </UL>
-        </div>
-    </main>
-</body>
-</html>
+{% block content %}
+{% endblock content %}
