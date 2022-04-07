@@ -33,7 +33,7 @@ def save_a_message(new_message):
     new_message.save()
 
 
-def test_new_message(new_message, new_user_sender, new_user_receiver):
+def test_new_message_validation_with_db(new_message, new_user_sender, new_user_receiver):
     assert new_message.sender == new_user_sender
     assert new_message.receiver == new_user_receiver
     assert new_message.creation_date == CREATION_DATE
@@ -54,7 +54,7 @@ def test_is_empty_message(new_message, empty_string):
 
 
 @pytest.mark.django_db()
-def test_saving_message(new_message):
+def test_saving_message_in_db(new_message):
     save_a_message(new_message)
     assert new_message.sender in models.User.objects.all()
     assert new_message.receiver in models.User.objects.all()
@@ -62,21 +62,21 @@ def test_saving_message(new_message):
 
 
 @pytest.mark.django_db()
-def test_deletion_message(new_message):
+def test_deletion_message_from_db(new_message):
     save_a_message(new_message)
     new_message.delete()
     assert new_message not in models.Message.objects.all()
 
 
 @pytest.mark.django_db()
-def test_deletion_message_after_sender(new_message):
+def test_deletion_message_after_sender_deletion(new_message):
     save_a_message(new_message)
     new_message.sender.delete()
     assert new_message not in models.Message.objects.all()
 
 
 @pytest.mark.django_db()
-def test_deletion_message_after_receiver(new_message):
+def test_deletion_message_after_receiver_deletion(new_message):
     save_a_message(new_message)
     new_message.receiver.delete()
     assert new_message not in models.Message.objects.all()
