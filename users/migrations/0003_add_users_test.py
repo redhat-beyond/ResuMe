@@ -3,7 +3,7 @@ from django.db import migrations, transaction
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('users', '0001_initial'),
+        ('users', '0002_profile_profession'),
     ]
 
     def generate_user_test_data(apps, schema_editor):

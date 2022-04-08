@@ -10,6 +10,10 @@ FIRSTNAME = "Test"
 LASTNAME = "User"
 PASSWORD = "testpass"
 EMAIL = "testuser@gmail.com"
+LONG_PROFESSION = " test test test test test test test test" \
+                 " test test test test test test test test test" \
+                 " test test test test test test test test test" \
+                 " test test test test "
 
 
 @pytest.fixture
@@ -27,7 +31,7 @@ def test_persist_user(new_user):
 
 # Check that the user values are the same as the user inputs.
 @pytest.mark.django_db()
-def test_new_user(new_user):
+def test_new_user_validation_with_db(new_user):
     assert new_user.username == USERNAME
     assert new_user.first_name == FIRSTNAME
     assert new_user.last_name == LASTNAME
@@ -35,6 +39,7 @@ def test_new_user(new_user):
     assert new_user.email == EMAIL
     new_user.save()  # Profile create just after save user
     assert new_user.profile.bio == ''
+    assert new_user.profile.profession == ''
     assert new_user.profile.profile_pic == 'profile-icon.png'
 
 
@@ -87,3 +92,12 @@ def test_unique_username():
                     email="test@gmail.com")
         user1.save()
         user2.save()
+
+
+# Test for invalid profession length
+@pytest.mark.django_db
+def test_invalid_profession_length(new_user):
+    with pytest.raises(ValidationError):
+        new_user.save()
+        new_user.profile.profession = LONG_PROFESSION
+        new_user.profile.clean_fields()
