@@ -1,6 +1,5 @@
 import pytest
-from .models import Resume
-from .models import Comment
+from posts.models import Resume, Comment
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 

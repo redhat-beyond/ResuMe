@@ -1,5 +1,5 @@
 import pytest
-from .models import Post, Resume, Rating, Poll
+from posts.models import Post, Resume, Rating, Poll
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
