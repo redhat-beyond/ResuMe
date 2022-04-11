@@ -123,3 +123,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment {self.pk} by {self.author} for post by {self.post.author}"
+
+
+# -----------------------------------Poll model inherited from Post-----------------------------------
+
+class Poll(Post):
+
+    def __str__(self):
+        return f"Poll {self.post_id} by {self.author}"
