@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.validators import FileExtensionValidator
-from django.core.validators import MaxValueValidator
-from django.core.validators import MinValueValidator
-
+from django.core.validators import (
+    FileExtensionValidator,
+    MaxValueValidator,
+    MinValueValidator,
+    MaxLengthValidator,
+)
 
 # --------------------------------- Post: parent of Poll And Resume----------------------------------
 
@@ -110,3 +112,14 @@ class Rating(models.Model):
 
     def get_rating_average(self):
         return (self.design_rating + self.skill_relevance_rating + self.grammar_rating + self.conciseness_rating) / 4
+
+
+# ------------------------------------------- Comment-------------------------------------------------
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_text = models.TextField(max_length=500, validators=[MaxLengthValidator(500)])
+
+    def __str__(self):
+        return f"Comment {self.pk} by {self.author} for post by {self.post.author}"
