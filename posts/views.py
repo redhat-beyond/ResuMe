@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Post
 
 
@@ -13,6 +13,12 @@ class PostListView(ListView):
         ctx = super(PostListView, self).get_context_data(**kwargs)
         ctx['title'] = 'feed'
         return ctx
+
+
+class PostDetailView(DetailView):
+    model = Post
+    # Django's default template name - posts/post_detail.html
+    context_object_name = 'post'
 
 
 def about(request):
