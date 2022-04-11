@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'direct_message.apps.DirectMessageConfig',
     'users.apps.UsersConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
