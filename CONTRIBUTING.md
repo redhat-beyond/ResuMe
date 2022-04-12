@@ -65,7 +65,7 @@ We expect all Python code to conform to the [PEP8](https://www.python.org/dev/pe
  - **The Pull Request should not break any of the existing functionality**
  - <ins>Description-</ins> the PR description should explain what changes have been made, and why. In addition, they should include a link to the relevant `issue`
  - Each PR should include 1-5 `commits`
- - Make sure the PR passes CI checks.
+ - Make sure the PR passes CI checks, therefore you need to run `pipenv run flake8 --max-line-length 120` and `pipenv run python -m pytest -v` inside your VM before submitting a new PR.
  - Each pull request requires the approval of at least <ins>2 team members</ins> before merging.
  - Update the ReadMe if needed.
 
