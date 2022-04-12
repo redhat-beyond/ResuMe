@@ -8,6 +8,7 @@
 - [ ] Imports form the same module should be separated with ' , ' (E.g `from secondery_model import item1, item 2`).
 ### Models(Classes)
  - [ ] Models name should be in CapWords(E.g `MyModel` )
+ - [ ] **Be careful not to choose a similar name to Django's default models names like `User`**
  - [ ] **Variables** and **functions** names should be lowercase, with words separated by underscores(i.e `first_name` and `calc_average`)
  - [ ] functions names should be significant.
  - [ ] Instance methods should always receive `self` as first argument
