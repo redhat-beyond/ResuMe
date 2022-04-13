@@ -1,0 +1,167 @@
+/* ---------------------------------------------------------- GoogLe Fonts ---------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps:wght@400;700&family=Poppins:ital,wght@0,300;0,500;1,600&display=swap');
+/* ---------------------------------------------------------- general settings ---------------------------------------------------------- */
+ *{
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+.logo{
+    font-family: 'Oleo Script Swash Caps', cursive;
+}
+ 
+body{
+    font-family: 'Poppins', sans-serif;
+    background: var(--background);
+}
+ 
+:root{
+    --gradiant: linear-gradient(to right, #e2336b, #fcac46);
+    --background: linear-gradient(180deg, rgb(248, 248, 248) 0%, rgb(255, 255, 255) 100%);
+    --lightbackground: linear-gradient( 135deg, #90F7EC 10%, #32CCBC 100%);
+}
+
+.container{
+  width:95%;
+  display: flex;
+  justify-content: space-between;
+  max-width:none;
+  margin: 0;
+  padding: 0;
+}
+
+ /* ---------------------------------------------------------- main content ---------------------------------------------------------- */
+ 
+.main-content{
+   flex-basis: 80%;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   margin: 5%;
+   margin-top: 2%;
+}
+
+ /* ---------------------------------------------------------- side bar ---------------------------------------------------------- */
+
+.side-bar{
+  background-color: white;
+  flex-basis: 18%;
+  position: sticky;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  min-width: 10vh;
+  overflow: auto;
+  align-self: flex-start;
+  padding: 20px;
+  border-right: 2px solid rgb(225, 225, 225);
+}
+
+.logo img{
+  width: 150px;
+}
+
+.profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.4rem;
+}
+
+.profile-img{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #f8f8f8;
+  border: 2px solid #e2336b;
+}
+
+.profile-img img{
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 50%;
+  object-position: center;
+}
+
+.profile-img:hover{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 87px;
+  height: 87px;
+  border-radius: 50%;
+  background: var(--gradiant);
+  border: none;
+}
+
+.profile-img:hover img{
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  object-position: center;
+}
+
+.user-info{
+  display:block;
+  align-items:center;
+  justify-content: center;
+  margin: 1rem 0 0.4rem;
+}
+
+.user-info h1{
+  text-align: center;
+  font-size: 1.5rem;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#side-bar-seperator{
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.menu a {
+  width: 100%;
+  margin-top: 10px;
+  font-size: 1.4rem;
+  color: #000;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.menu a:hover{
+  color: #000000;
+  background-color: rgba(0, 0, 255, 0.185);
+  border-radius: 0.75rem;
+}
+
+.menu .active{
+color: #ffffff;
+background-color: rgba(0, 0, 255, 0.5);
+border-radius: 0.75rem;
+}
+
+.menu .logout:hover{
+color: #ffffff;
+background-color: rgba(255, 0, 0, 0.644);
+border-radius: 0.75rem;
+}
+
+.menu .logout:active{
+color: #ffffff;
+background-color: rgb(181, 0, 0);
+border-radius: 0.75rem;
+}

@@ -1,0 +1,36 @@
+.description{
+  background-color: #97ccb9;
+  padding: 30px;
+  text-align: center;
+  color: white;
+  border-radius: 1rem;
+}
+
+.description h2{
+  font-size: 25px;
+  color: var(--gradiant);
+}
+
+.description li{
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.headline{
+  text-align: center;
+}
+
+.ResuMe{
+  color: black;
+  font-family: logoFont;
+  font-size:larger;
+}
+
+.list{
+  margin-top: 2%;
+}
+
+@font-face {
+  font-family: logoFont;
+  src: url(SCRIPTBL.TTF);
+}
