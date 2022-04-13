@@ -18,21 +18,31 @@ class Migration(migrations.Migration):
         superuser.email = 'admin@gmail.com'
         superuser.set_password('admin1234')
         superuser.save()
+        superuser.profile.profession = "ResuMe Super User"
+        superuser.profile.bio = "Hi I am the Resume manager :)"
+        superuser.profile.save()
         # Create normal users
         users_test_data = [
-            ("AlonShakaroff", "Alon", "Shakaroff", "test$1234", "alon@gmail.com", "profile_pics/alon.jpg"),
-            ("OmerCohenShor", "Omer", "Cohen-Shor", "test$5678", "omer@gmail.com", "profile_pics/omer.jpg"),
-            ("TomerNewman", "Tomer", "Newman", "test$8910", "tomer@gmail.com", "profile_pics/tomer.jpeg"),
-            ("YuliSuliman", "Yuli", "Suliman", "test$3643", "yuli@gmail.com", "profile_pics/yuli.jpg"),
-            ("MatanPeretz", "Matan", "Peretz", "test$8979", "matan@gmail.com", "profile_pics/matan.jpg")
+            ("AlonShakaroff", "Alon", "Shakaroff", "test$1234",
+             "alon@gmail.com", "profile_pics/alon.jpg", "Software Developer"),
+            ("OmerCohenShor", "Omer", "Cohen-Shor", "test$5678", "omer@gmail.com",
+             "profile_pics/omer.jpg", "Frontend Developer"),
+            ("TomerNewman", "Tomer", "Newman", "test$8910",
+             "tomer@gmail.com", "profile_pics/tomer.jpeg", "Software Developer"),
+            ("YuliSuliman", "Yuli", "Suliman", "test$3643",
+             "yuli@gmail.com", "profile_pics/yuli.jpg", "Software Developer"),
+            ("MatanPeretz", "Matan", "Peretz", "test$8979",
+             "matan@gmail.com", "profile_pics/matan.jpg", "Backend Developer")
         ]
 
         with transaction.atomic():
-            for USERNAME, FIRSTNAME, LASTNAME, PASSWORD, EMAIL, PROFILE_PIC in users_test_data:
-                user = User(username=USERNAME, first_name=FIRSTNAME, last_name=LASTNAME, password=PASSWORD, email=EMAIL)
+            for USERNAME, FIRSTNAME, LASTNAME, PASSWORD, EMAIL, PROFILE_PIC, PROFFESION in users_test_data:
+                user = User(username=USERNAME, first_name=FIRSTNAME, last_name=LASTNAME, email=EMAIL)
+                user.set_password(PASSWORD)
                 user.save()
                 user.profile.bio = "Hi my name is " + FIRSTNAME + " " + LASTNAME
                 user.profile.profile_pic = PROFILE_PIC
+                user.profile.profession = PROFFESION
                 user.profile.save()
     operations = [
         migrations.RunPython(generate_user_test_data),
