@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'posts/about.css' %}">
+{% endblock styles%}
+{% block content %}
+    <h1 class="headline">
+        Welcome to ResuMe!
+    </h1>
+    <div class="description">
+        <h2>
+            Want to know what your resume is missing?
+            You have come to the right place! <br>
+            <b class="ResuMe">ResuMe</b> takes the guesswork out of writing a fantastic resume.
+            Instead of wondering how your resume lands,
+            you can simply post it on our platform, and get direct feedback
+            from job seekers and employers alike. <br>
+            So what are you waiting for? Upload your resume now and get started!
+        </h2>
+    <div>
+    <hr/>
+    <div class="list">
+        <h1>Group members:</h1>
+        <UL>
+            <LI>Omer Cohen Shor</LI>
+            <LI>Yuli Suliman</LI>
+            <LI>Alon Shakaroff</LI>
+            <LI>Matan Peretz</LI>
+            <LI>Tomer Newman</LI>
+        </UL>
+    </div>
+{% endblock content %}
