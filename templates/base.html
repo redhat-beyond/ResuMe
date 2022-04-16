@@ -53,6 +53,13 @@
 
         <menu class="menu">
 
+          <a href="{% url 'resume-create' %}" {%if title == "resume-create"%} class="active"> {% endif %}
+            <li class="icon">
+              <i class="ri-file-add-line"></i>
+            </li>
+            Post
+          </a>
+
           <a href="{% url 'posts-feed' %}" {%if title == "feed"%} class="active"> {% endif %}
             <li class="icon"> 
               <i class="ri-home-6-line"></i>

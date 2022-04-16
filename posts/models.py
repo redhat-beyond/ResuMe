@@ -7,6 +7,7 @@ from django.core.validators import (
     MinValueValidator,
     MaxLengthValidator,
 )
+from django.urls import reverse
 
 # --------------------------------- Post: parent of Poll And Resume----------------------------------
 
@@ -16,6 +17,9 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})
 
 
 # ------------------------------------------- Resume-------------------------------------------------

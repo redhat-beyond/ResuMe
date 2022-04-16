@@ -1,6 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-from .models import Post
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView
+)
+from .models import Post, Resume
 from django.contrib.auth.decorators import login_required
 
 
@@ -20,6 +25,22 @@ class PostDetailView(DetailView):
     model = Post
     # Django's default template name - posts/post_detail.html
     context_object_name = 'post'
+
+
+class ResumeCreateView(LoginRequiredMixin, CreateView):
+    model = Resume
+    # Django's default template name - posts/post_form.html
+    fields = ['description', 'resume_file']
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(ResumeCreateView, self).get_context_data(**kwargs)
+        ctx['title'] = 'resume-create'
+        return ctx
 
 
 def about(request):
