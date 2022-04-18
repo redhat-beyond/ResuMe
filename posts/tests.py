@@ -2,23 +2,109 @@ import pytest
 from posts.models import Post, Resume, Rating, Poll, PollFile, Choice
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from conftest import new_poll, new_user
 
 USERNAME = "testuser"
 FIRSTNAME = "Test"
 LASTNAME = "User"
 PASSWORD = "testpass"
 EMAIL = "testuser@gmail.com"
-DESCRIPTION = "this is a test post"
+DESCRIPTION = "this is a test resume"
 FILE1 = "Alon_Shakaroffs_resume.pdf"
 FILE2 = "Olive.png"
 CHOICETEXT1 = "First option"
 CHOICETEXT2 = "Second option"
 
+# -----------------------------------------------fixtures----------------------------------------------------------
+
+
+@pytest.fixture
+def new_user():
+    return User(username=USERNAME, first_name=FIRSTNAME, last_name=LASTNAME, password=PASSWORD, email=EMAIL)
+
+
+@pytest.fixture
+def new_user2():
+    return User(username="user2", first_name=FIRSTNAME, last_name=LASTNAME, password=PASSWORD, email="test2@gmail.com")
+
+
+@pytest.fixture
+def persist_user(new_user):
+    new_user.save()
+    return new_user
+
+
+@pytest.fixture
+def new_resume(new_user):
+    return Resume(author=new_user, description=DESCRIPTION)
+
+
+@pytest.fixture
+def persist_resume(new_resume):
+    new_resume.author.save()
+    new_resume.save()
+    return new_resume
+
+
+@pytest.fixture
+def new_rating(new_resume, new_user):
+    return Rating(
+        author=new_user,
+        resume=new_resume,
+        design_rating=5,
+        skill_relevance_rating=5,
+        grammar_rating=5,
+        conciseness_rating=5
+    )
+
+
+@pytest.fixture
+def persist_rating(new_rating):
+    new_rating.author.save()
+    new_rating.resume.save()
+    new_rating.save()
+    return new_rating
+
+
+@pytest.fixture
+def new_poll(new_user):
+    return Poll(author=new_user, description=DESCRIPTION)
+
+
+@pytest.fixture
+def persist_poll(new_poll):
+    new_poll.author.save()
+    new_poll.save()
+    return new_poll
+
+
+@pytest.fixture
+def new_poll_file(new_poll):
+    return PollFile(poll=new_poll, file=FILE1)
+
+
+@pytest.fixture
+def persist_poll_file(new_poll_file):
+    new_poll_file.poll.author.save()
+    new_poll_file.poll.save()
+    new_poll_file.save()
+    return new_poll_file
+
+
+@pytest.fixture
+def new_choice(new_poll):
+    return Choice(poll=new_poll, choice_text=CHOICETEXT1)
+
+
+@pytest.fixture
+def persist_choice(new_choice):
+    new_choice.poll.author.save()
+    new_choice.poll.save()
+    new_choice.save()
+    return new_choice
+
 
 def new_user_with_name_and_email(user_name, email):
     user = User(username=user_name, first_name=FIRSTNAME, last_name=LASTNAME, password=PASSWORD, email=email)
-    user.set_password(PASSWORD)
     user.save()
     return user
 
@@ -41,6 +127,7 @@ def new_rating_with_input(resume, author, grade):
 
 @pytest.mark.django_db()
 class TestResume:
+
     # Check that the Resume values are the same as the Resume inputs.
     def test_new_resume_input_same_as_output(self, new_resume):
         assert new_resume.author.username == USERNAME
@@ -107,6 +194,7 @@ class TestResume:
 
 @pytest.mark.django_db()
 class TestRating:
+
     # Check that the Rating values are the same as the Rating inputs.
     def test_new_rating_input_same_as_output(self, new_rating):
         assert new_rating.author.username == USERNAME
@@ -282,7 +370,7 @@ class TestPollFile:
         USERNAME, DESCRIPTION, ValueError),
         (new_user, DESCRIPTION, ValueError),
         (new_poll, 6, ValueError)])
-    def test_pollfile_invalid_args(self, poll, file, expected_error):
+    def test_pollFile_invalid_args(self, poll, file, expected_error):
         with pytest.raises(expected_error):
             PollFile(poll=poll, file=file)
 

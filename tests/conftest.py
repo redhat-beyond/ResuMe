@@ -1,5 +1,5 @@
 import pytest
-from posts.models import Resume, Rating, Poll, PollFile
+from posts.models import Resume, Rating, Poll, PollFile, Choice
 from django.contrib.auth.models import User
 from direct_message.models import Message
 from django.utils import timezone
@@ -15,7 +15,8 @@ PASSWORD = "testpass"
 EMAIL = "testuser@gmail.com"
 DESCRIPTION = "this is a test post"
 FILE1 = "Alon_Shakaroffs_resume.pdf"
-
+CHOICETEXT1 = "First option"
+CHOICETEXT2 = "Second option"
 LONG_PROFESSION = " test test test test test test test test" \
                  " test test test test test test test test test" \
                  " test test test test test test test test test" \
@@ -25,6 +26,13 @@ LONG_PROFESSION = " test test test test test test test test" \
 @pytest.fixture
 def new_user():
     user = User(username=USERNAME, first_name=FIRSTNAME, last_name=LASTNAME, email=EMAIL)
+    user.set_password(PASSWORD)
+    return user
+
+
+@pytest.fixture
+def new_user2():
+    user = User(username="user2", first_name=FIRSTNAME, last_name=LASTNAME, email="test2@gmail.com")
     user.set_password(PASSWORD)
     return user
 
@@ -110,3 +118,16 @@ def new_message(new_user_sender, new_user_receiver):
                    receiver=new_user_receiver,
                    creation_date=CREATION_DATE,
                    message_text='test')
+
+
+@pytest.fixture
+def new_choice(new_poll):
+    return Choice(poll=new_poll, choice_text=CHOICETEXT1)
+
+
+@pytest.fixture
+def persist_choice(new_choice):
+    new_choice.poll.author.save()
+    new_choice.poll.save()
+    new_choice.save()
+    return new_choice
