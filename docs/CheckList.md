@@ -16,13 +16,13 @@
  - [ ] Constants should be defined in the module level and be written in capital letters with underscores separating words(E.g `MAX_LENGTH`)
  - [ ] Strings should be consistent when using quotes. Use quote or double quote, not both.
 ### Blank lines
-- [ ]  Surround top-level function and class definitions with two blank lines.
-- [ ] Method definitions inside a class are surrounded by a single blank line.
+ - [ ] Surround top-level function and class definitions with two blank lines.
+ - [ ] Method definitions inside a class are surrounded by a single blank line.
 ### Tests
-- [ ] Above each test should have a comment that describes what the test is meant for.
-- [ ] If the test expect `Exception` use `pytest.rise`
-- [ ] To test several invalid value test cases use `parametrize`.
+ - [ ] Each test should have a comment above it to describe the test's purpose.
+ - [ ] If the test expect `Exception` use `pytest.rise`
+ - [ ] To test several invalid value test cases use `parametrize`.
 ## Run Pytest and flake8 
 Inside the vagrant Virtual machine and inside the `/vagrant` folder
-- [ ] pipenv run python -m pytest -v
-- [ ] pipenv run flake8 --max-line-length 120
+ - [ ] pipenv run python -m pytest -v
+ - [ ] pipenv run flake8 --max-line-length 120
