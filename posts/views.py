@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from .models import Post
+from django.contrib.auth.decorators import login_required
 
 
 class PostListView(ListView):
@@ -25,5 +26,6 @@ def about(request):
     return render(request, 'posts/about.html', {'title': 'about'})
 
 
+@login_required
 def search(request):
     return render(request, 'posts/search.html', {'title': 'search'})

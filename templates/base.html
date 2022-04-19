@@ -89,21 +89,20 @@
           </a>
           
           {% if user.is_authenticated %}
-            <a href="{% url 'users-logout' %}" class="logout">
+            <a href="{% url 'logout' %}" class="logout">
               <li class="icon"> 
                 <i class="ri-login-circle-line"></i>
               </li>
               Log out
             </a>
           {% else %}
-            <a href="{% url 'users-login' %}" {%if title == "login"%} class="active"> {% endif %}
+            <a href="{% url 'login' %}" {%if title == "login"%} class="active"> {% endif %}
               <li class="icon"> 
                 <i class="ri-login-circle-line"></i>
               </li>
               Log in
             </a>
           {% endif %}
-    
         <menu/>
       </div>
 
