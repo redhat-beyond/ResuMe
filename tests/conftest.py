@@ -15,11 +15,19 @@ PASSWORD = "testpass"
 EMAIL = "testuser@gmail.com"
 DESCRIPTION = "this is a test post"
 FILE1 = "Alon_Shakaroffs_resume.pdf"
-
-LONG_PROFESSION = " test test test test test test test test" \
+LONG_PROFESSION = " test test test test test test test test test test test test test test test test" \
                  " test test test test test test test test test" \
                  " test test test test test test test test test" \
                  " test test test test "
+VALID_COMMENT = "test"
+EMPTY_COMMENT = ""
+LONG_COMMENT = "test test test test test test test test test test test test test test test test test" \
+    " test test test test test test test test test test test test test test test test test test test" \
+    " test test test test test test test test test test test test test test test test test test test" \
+    " test test test test test test test test test test test test test test test test test test test" \
+    " test test test test test test test test test test test test test test test test test test test" \
+    " test test test test test test test test test test test test test test test test test test test" \
+    " test test test test test test test test test test test test test test test test test test test"
 
 
 @pytest.fixture

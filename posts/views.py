@@ -6,7 +6,7 @@ from django.views.generic import (
     CreateView,
     UpdateView
 )
-from .models import Post, Resume
+from .models import Post, Resume, Comment
 from django.contrib.auth.decorators import login_required
 
 
@@ -58,6 +58,17 @@ class ResumeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    # Django's default template name - posts/comment_form.html
+    fields = ['comment_text']
+
+    def form_valid(self, form):
+        form.instance.post = Post.objects.get(pk=self.kwargs['post_pk'])
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 def about(request):

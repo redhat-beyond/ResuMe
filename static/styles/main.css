@@ -13,7 +13,7 @@
  
 body{
     font-family: 'Poppins', sans-serif;
-    background-color: #f0f2f5;
+    background: var(--pagebackground);
 }
  
 :root{
@@ -35,13 +35,13 @@ body{
  /* ---------------------------------------------------------- main content ---------------------------------------------------------- */
  
 .main-content{
-   flex-basis: 80%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   margin: 5%;
-   margin-top: 2%;
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5%;
+  margin-top: 2%;
 }
 
  /* ---------------------------------------------------------- side bar ---------------------------------------------------------- */

@@ -6,6 +6,7 @@
 {% block content %}
     {% for post in posts %}
         <article class="content-section">
+
           <div class="media-body">
             <div class="article-metadata">
                 <img class="rounded-circle article-img" src="{{ post.author.profile.profile_pic.url }}">
@@ -17,6 +18,22 @@
                 <iframe src="{{ post.resume.resume_file.url }}" style="width: 560px;height: 780px ;border: none;"></iframe>
               {% endif %}
           </div>
+
+          <div class="comments-block">
+            <div class="buttons">   
+              <a href="{% url 'comment-create' post.pk %}"><button type="button" class="btn btn-secondary">Add comment</button></a>
+              <hr>
+            </div>
+            {% for comment in post.comment_set.all %}
+              <div class="comment-data">
+                <img class="rounded-circle article-img" src="{{ comment.author.profile.profile_pic.url }}">
+                <a class="mr-2" href="#">{{ comment.author }}</a>
+                <hr class="comment-hr">
+                <p class="comment-content">{{ comment.comment_text }}</p>
+              </div>
+            {% endfor %}
+          </div>
+          
         </article>
     {% endfor %}
 {% endblock content %}

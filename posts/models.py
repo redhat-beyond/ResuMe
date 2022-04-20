@@ -128,6 +128,9 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comment {self.pk} by {self.author} for post by {self.post.author}"
 
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.post.pk})
+
 
 # -----------------------------------Poll model inherited from Post-----------------------------------
 
