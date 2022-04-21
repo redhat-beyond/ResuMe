@@ -20,6 +20,7 @@ class Migration(migrations.Migration):
         superuser.save()
         superuser.profile.profession = "ResuMe Super User"
         superuser.profile.bio = "Hi I am the Resume manager :)"
+        superuser.profile.profile_pic = "profile_pics/admin.jpg"
         superuser.profile.save()
         # Create normal users
         users_test_data = [
