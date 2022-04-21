@@ -26,3 +26,5 @@
 Inside the vagrant Virtual machine and inside the `/vagrant` folder
  - [ ] pipenv run python -m pytest -v
  - [ ] pipenv run flake8 --max-line-length 120
+## Requirements for PR
+- [ ] Add pictures for PR that contain view change.
