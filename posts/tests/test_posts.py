@@ -1,72 +1,17 @@
 import pytest
-from .models import Post, Resume, Rating, Poll
+from posts.models import Post, Resume, Rating, Poll, PollFile
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from conftest import new_poll, new_user
 
 USERNAME = "testuser"
 FIRSTNAME = "Test"
 LASTNAME = "User"
 PASSWORD = "testpass"
 EMAIL = "testuser@gmail.com"
-DESCRIPTION = "this is a test resume"
+DESCRIPTION = "this is a test post"
 FILE1 = "Alon_Shakaroffs_resume.pdf"
-
-
-# -----------------------------------------------fixtures----------------------------------------------------------
-
-@pytest.fixture
-def new_user():
-    return User(username=USERNAME, first_name=FIRSTNAME, last_name=LASTNAME, password=PASSWORD, email=EMAIL)
-
-
-@pytest.fixture
-def persist_user(new_user):
-    new_user.save()
-    return new_user
-
-
-@pytest.fixture
-def new_resume(new_user):
-    return Resume(author=new_user, description=DESCRIPTION)
-
-
-@pytest.fixture
-def persist_resume(new_resume):
-    new_resume.author.save()
-    new_resume.save()
-    return new_resume
-
-
-@pytest.fixture
-def new_rating(new_resume, new_user):
-    return Rating(
-        author=new_user,
-        resume=new_resume,
-        design_rating=5,
-        skill_relevance_rating=5,
-        grammar_rating=5,
-        conciseness_rating=5
-    )
-
-
-@pytest.fixture
-def persist_rating(new_rating):
-    new_rating.author.save()
-    new_rating.resume.save()
-    new_rating.save()
-    return new_rating
-
-
-@pytest.fixture
-def new_poll(new_user):
-    return Poll(author=new_user, description=DESCRIPTION)
-
-
-@pytest.fixture
-def persist_poll(new_poll):
-    new_poll.author.save()
-    new_poll.save()
-    return new_poll
+FILE2 = "Olive.png"
 
 
 def new_user_with_name_and_email(user_name, email):
@@ -281,3 +226,61 @@ class TestPoll:
     def test_poll_invalid_args(self, user, description, expected_error):
         with pytest.raises(expected_error):
             Poll(author=user, description=description)
+
+
+# -------------------------------------------- PollFile tests --------------------------------------------
+
+@pytest.mark.django_db()
+class TestPollFile:
+    # Check that the PollFile values are the same as the PollFile inputs.
+    def test_new_poll_file_input_same_as_output(self, new_poll_file):
+        assert new_poll_file.poll.author.username == USERNAME
+        assert new_poll_file.poll.description == DESCRIPTION
+        assert new_poll_file.file == FILE1
+
+    # Check if the PollFile is saved in the database and accessible via its Poll.
+    def test_persist_poll_file(self, persist_poll_file):
+        assert persist_poll_file in PollFile.objects.all()
+        assert persist_poll_file in persist_poll_file.poll.pollfile_set.all()
+
+    # Check if PollFile deletion delete only PollFile from database.
+    def test_delete_pollfile(self, persist_poll_file):
+        assert persist_poll_file.poll in Poll.objects.all()
+        assert persist_poll_file.poll.author in User.objects.all()
+        assert persist_poll_file in PollFile.objects.all()
+        persist_poll_file.delete()
+        assert persist_poll_file.poll in Poll.objects.all()
+        assert persist_poll_file.poll.author in User.objects.all()
+        assert persist_poll_file not in PollFile.objects.all()
+
+    # Check if PollFile's poll deletion delete both PollFile and poll from database - but not the poll's author.
+    def test_delete_pollfile_poll(self, persist_poll_file):
+        persist_poll_file.poll.delete()
+        assert persist_poll_file.poll not in Poll.objects.all()
+        assert persist_poll_file.poll.author in User.objects.all()
+        assert persist_poll_file not in PollFile.objects.all()
+
+    # Check if PollFile's poll's author deletion delete also PollFile and database.
+    def test_delete_pollfile_user(self, persist_poll_file):
+        persist_poll_file.poll.author.delete()
+        assert persist_poll_file.poll not in Poll.objects.all()
+        assert persist_poll_file.poll.author not in User.objects.all()
+        assert persist_poll_file not in PollFile.objects.all()
+
+    # Check if Poll can have several PollFiles simultaneously.
+    def test_several_pollfiles(self, persist_poll):
+        file1 = PollFile(poll=persist_poll, file=FILE1)
+        assert len(PollFile.objects.all()) == 0
+        file1.save()
+        assert len(PollFile.objects.all()) == 1
+        persist_poll.pollfile_set.create(file=FILE2)
+        assert len(persist_poll.pollfile_set.all()) == 2
+
+    # verify that it is impossible to create a PollFile with invalid params (string as poll, User as poll, int as file).
+    @pytest.mark.parametrize("poll, file, expected_error", [(
+        USERNAME, DESCRIPTION, ValueError),
+        (new_user, DESCRIPTION, ValueError),
+        (new_poll, 6, ValueError)])
+    def test_pollFile_invalid_args(self, poll, file, expected_error):
+        with pytest.raises(expected_error):
+            PollFile(poll=poll, file=file)

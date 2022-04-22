@@ -1,0 +1,18 @@
+.article-img {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+  object-position: center;
+  margin-right: 5px;
+}
+
+.content-section{
+  display: flex;
+  width: 600px;
+  background-color: white;
+  justify-content: center;
+  margin: 50px 70px;
+  border-radius: 25px;
+  padding: 20px;
+}

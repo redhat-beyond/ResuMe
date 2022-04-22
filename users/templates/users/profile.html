@@ -3,4 +3,27 @@
 {% endblock styles %}
 
 {% block content %}
+
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.profile_pic.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <hr>
+          <h4>Profession</h4>
+          <p class="text-secondary">{{user.profile.profession }}</p>
+          <h4>About Me</h4>
+          <p class="text-secondary">{{user.profile.bio }}</p>
+          <h4>Email</h4>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+    </div>
+	<br>
+    <a href="{% url 'users-edit-profile' %}" {%if title == "edit-profile"%} class="active"> {% endif %}
+        <li class="edit button"> 
+        </li>
+        <h3> Edit profile </h3>
+     </a>
+    
 {% endblock content %}
