@@ -1,6 +1,11 @@
 import pytest
 from posts.models import Resume, Rating, Poll, PollFile
 from django.contrib.auth.models import User
+from direct_message.models import Message
+from django.utils import timezone
+
+
+CREATION_DATE = timezone.now()
 
 
 USERNAME = "testuser"
@@ -10,6 +15,11 @@ PASSWORD = "testpass"
 EMAIL = "testuser@gmail.com"
 DESCRIPTION = "this is a test post"
 FILE1 = "Alon_Shakaroffs_resume.pdf"
+
+LONG_PROFESSION = " test test test test test test test test" \
+                 " test test test test test test test test test" \
+                 " test test test test test test test test test" \
+                 " test test test test "
 
 
 @pytest.fixture
@@ -80,3 +90,23 @@ def persist_poll_file(new_poll_file):
     new_poll_file.poll.save()
     new_poll_file.save()
     return new_poll_file
+
+
+@pytest.fixture
+def new_user_sender():
+    return User(username='TestSender', first_name='Nick',
+                last_name='Birch', password='1234', email='Nick@email.com')
+
+
+@pytest.fixture
+def new_user_receiver():
+    return User(username='TestReceiver', first_name='Andrew',
+                last_name='Glouberman', password='abcd', email='Andrew@email.com')
+
+
+@pytest.fixture
+def new_message(new_user_sender, new_user_receiver):
+    return Message(sender=new_user_sender,
+                   receiver=new_user_receiver,
+                   creation_date=CREATION_DATE,
+                   message_text='test')
