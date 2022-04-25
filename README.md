@@ -19,3 +19,4 @@ These instructions will get you a copy of the project up and running on your loc
 - [Tomer Newman](https://github.com/TomerNewmanPrograms)
 - [Yuli Suliman](https://github.com/yulisuliman)
 - [Matan Peretz](https://github.com/MatanP12)
+![TeamMembers](static/images/ResuMeTeam.png)
