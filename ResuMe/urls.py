@@ -27,7 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('posts.urls')),
     path('profile/', include('users.urls'), name='profile'),
-    path('direct/', include('direct_message.urls')),
     path('edit-profile/', profile_views.edit_profile, name='users-edit-profile'),
 ]
 
