@@ -1,0 +1,14 @@
+.content-section{
+  display: flex;
+  flex-grow: 3;
+  width: 600px;
+  background-color: white;
+  justify-content: center;
+  margin: 50px 70px;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.form-group{
+  margin: 10px;
+}

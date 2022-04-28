@@ -16,6 +16,7 @@ FILE2 = "Olive.png"
 
 def new_user_with_name_and_email(user_name, email):
     user = User(username=user_name, first_name=FIRSTNAME, last_name=LASTNAME, password=PASSWORD, email=email)
+    user.set_password(PASSWORD)
     user.save()
     return user
 
@@ -38,7 +39,6 @@ def new_rating_with_input(resume, author, grade):
 
 @pytest.mark.django_db()
 class TestResume:
-
     # Check that the Resume values are the same as the Resume inputs.
     def test_new_resume_input_same_as_output(self, new_resume):
         assert new_resume.author.username == USERNAME
@@ -105,7 +105,6 @@ class TestResume:
 
 @pytest.mark.django_db()
 class TestRating:
-
     # Check that the Rating values are the same as the Rating inputs.
     def test_new_rating_input_same_as_output(self, new_rating):
         assert new_rating.author.username == USERNAME
@@ -281,6 +280,6 @@ class TestPollFile:
         USERNAME, DESCRIPTION, ValueError),
         (new_user, DESCRIPTION, ValueError),
         (new_poll, 6, ValueError)])
-    def test_pollFile_invalid_args(self, poll, file, expected_error):
+    def test_pollfile_invalid_args(self, poll, file, expected_error):
         with pytest.raises(expected_error):
             PollFile(poll=poll, file=file)

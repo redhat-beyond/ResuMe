@@ -14,7 +14,9 @@ FILE1 = "Alon_Shakaroffs_resume.pdf"
 
 @pytest.fixture
 def new_user():
-    return User(username=USERNAME, first_name=FIRSTNAME, last_name=LASTNAME, password=PASSWORD, email=EMAIL)
+    user = User(username=USERNAME, first_name=FIRSTNAME, last_name=LASTNAME, email=EMAIL)
+    user.set_password(PASSWORD)
+    return user
 
 
 @pytest.fixture
