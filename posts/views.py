@@ -6,7 +6,6 @@ from django.views.generic import (
     CreateView
 )
 from .models import Post, Resume
-from django.contrib.auth.decorators import login_required
 
 
 class PostListView(ListView):
@@ -47,6 +46,11 @@ def about(request):
     return render(request, 'posts/about.html', {'title': 'about'})
 
 
-@login_required
 def search(request):
-    return render(request, 'posts/search.html', {'title': 'search'})
+    if request.method == 'GET':
+        query = request.GET.get('searched')
+        objlst = Post.objects.all()
+        posts = objlst.filter(description__icontains=query)
+        return render(request, 'posts/search.html', {'posts': posts})
+
+    return render(request, 'posts/search.html', {})

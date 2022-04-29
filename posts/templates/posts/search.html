@@ -1,6 +1,25 @@
 {% extends "base.html" %}
+{% load static %}
 {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'posts/feed.css' %}">
 {% endblock styles %}
-
 {% block content %}
+  {% if searched %}
+    <h1>Search Results for: {{ searched }}</h1>
+  {% endif %}
+      {% for post in posts %}
+          <article class="content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                  <img class="rounded-circle article-img" src="{{ post.author.profile.profile_pic.url }}">
+                <a class="mr-2" href="#">{{ post.author }}</a>
+                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+              </div>
+              <p class="article-content">{{ post.description }}</p>
+                {% if post.resume %}
+                  <iframe src="{{ post.resume.resume_file.url }}" style="width: 560px;height: 780px ;border: none;"></iframe>
+                {% endif %}
+            </div>
+          </article>
+      {% endfor %}
 {% endblock content %}
