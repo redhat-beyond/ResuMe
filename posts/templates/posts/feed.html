@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'posts/feed.css' %}">
 {% endblock styles %}
 {% block content %}
-  <form method="GET" action="{% url 'posts-search' %}">
+  <form method="POST" action="{% url 'posts-search' %}">
     {% csrf_token %}
       <input placeholder="Search Post"  type="search" value="{{ search }}" name="searched">
     <button type="submit">Search</button>

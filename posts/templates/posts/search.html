@@ -4,9 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'posts/feed.css' %}">
 {% endblock styles %}
 {% block content %}
-  {% if searched %}
-    <h1>Search Results for: {{ searched }}</h1>
-  {% endif %}
+  <h1>Search Results for: {{ searched }}</h1>
       {% for post in posts %}
           <article class="content-section">
             <div class="media-body">

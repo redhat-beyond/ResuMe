@@ -47,10 +47,10 @@ def about(request):
 
 
 def search(request):
-    if request.method == 'GET':
-        query = request.GET.get('searched')
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
         objlst = Post.objects.all()
-        posts = objlst.filter(description__icontains=query)
-        return render(request, 'posts/search.html', {'posts': posts})
+        posts = objlst.filter(description__icontains=searched)
+        return render(request, 'posts/search.html', {'posts': posts, 'searched':searched})
 
     return render(request, 'posts/search.html', {})
