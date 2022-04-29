@@ -51,6 +51,6 @@ def search(request):
         searched = request.POST.get('searched')
         objlst = Post.objects.all()
         posts = objlst.filter(description__icontains=searched)
-        return render(request, 'posts/search.html', {'posts': posts, 'searched':searched})
+        return render(request, 'posts/search.html', {'posts': posts, 'searched': searched})
 
     return render(request, 'posts/search.html', {})
