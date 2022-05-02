@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
     DetailView,
-    CreateView
+    CreateView,
+    UpdateView
 )
 from .models import Post, Resume
 from django.contrib.auth.decorators import login_required
@@ -41,6 +42,22 @@ class ResumeCreateView(LoginRequiredMixin, CreateView):
         ctx = super(ResumeCreateView, self).get_context_data(**kwargs)
         ctx['title'] = 'resume-create'
         return ctx
+
+
+class ResumeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Resume
+    # Django's default template name - posts/post_form.html
+    fields = ['description', 'resume_file']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
 
 
 def about(request):
