@@ -1,5 +1,7 @@
 import pytest
 from django import urls
+from django.contrib.auth.models import User
+from pytest_django.asserts import assertTemplateUsed
 
 
 @pytest.mark.django_db
@@ -35,3 +37,19 @@ class TestPostViews:
         resume_creation_path = urls.reverse('resume-create')
         response = client.get(resume_creation_path)
         assert response.status_code == 302
+
+    def test_not_author_resume_update_view(self, client, persist_resume):
+        not_author_user = User(username='not_author_user', first_name='test', last_name='test',
+                               password='test', email='user@email.com')
+        not_author_user.save()
+        client.force_login(not_author_user)
+        resume_update_path = f'/post/resume/{persist_resume.pk}/update/'
+        resume_update_response = client.get(resume_update_path)
+        assert resume_update_response.status_code == 403
+
+    def test_author_resume_update_view(self, client, persist_user, persist_resume):
+        client.force_login(persist_user)
+        resume_update_path = f'/post/resume/{persist_resume.pk}/update/'
+        resume_update_response = client.get(resume_update_path)
+        assert resume_update_response.status_code == 200
+        assertTemplateUsed(resume_update_response, 'posts/resume_form.html')
