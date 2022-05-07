@@ -34,6 +34,15 @@
                     {% endif %}
                     <div class="comments-block">
                         <div class="buttons">
+                            {% if post.resume %}
+                            {% include 'posts/rating_view.html' %}    
+                                {% if post.author != user %}
+                                <div>
+                                    <a href="{% url 'create-a-rate' post.pk %}"><button type="button" class="btn btn-secondary">Rate ResuMe</button></a>
+                                    <hr>
+                                </div>
+                                {% endif %}
+                            {% endif %}
                           <a href="{% url 'comment-create' post.pk %}"><button type="button" class="btn btn-secondary">Add comment</button></a>
                           <hr>
                         </div>

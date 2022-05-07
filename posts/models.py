@@ -114,6 +114,9 @@ class Rating(models.Model):
     def __str__(self):
         return f"Rating {self.rating_id} in {self.resume} by {self.author}"
 
+    def get_absolute_url(self):
+        return "/post/%i/" % self.resume.post_id
+
     def get_rating_average(self):
         return (self.design_rating + self.skill_relevance_rating + self.grammar_rating + self.conciseness_rating) / 4
 

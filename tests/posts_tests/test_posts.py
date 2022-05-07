@@ -2,7 +2,7 @@ import pytest
 from posts.models import Post, Resume, Rating, Poll, PollFile
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from conftest import new_poll, new_user
+from conftest import RATER_USERNAME, new_user, new_poll
 
 
 USERNAME = "testuser"
@@ -108,7 +108,7 @@ class TestResume:
 class TestRating:
     # Check that the Rating values are the same as the Rating inputs.
     def test_new_rating_input_same_as_output(self, new_rating):
-        assert new_rating.author.username == USERNAME
+        assert new_rating.author.username == RATER_USERNAME
         assert new_rating.resume.description == DESCRIPTION
         assert new_rating.design_rating == 5
         assert new_rating.skill_relevance_rating == 5
