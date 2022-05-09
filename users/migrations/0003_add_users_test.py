@@ -24,15 +24,15 @@ class Migration(migrations.Migration):
         superuser.profile.save()
         # Create normal users
         users_test_data = [
-            ("AlonShakaroff", "Alon", "Shakaroff", "test$1234",
+            ("AlonShakaroff", "Alon", "Shakaroff", "alon1234",
              "alon@gmail.com", "profile_pics/alon.jpg", "Software Developer"),
-            ("OmerCohenShor", "Omer", "Cohen-Shor", "test$5678", "omer@gmail.com",
+            ("OmerCohenShor", "Omer", "Cohen-Shor", "omer1234", "omer@gmail.com",
              "profile_pics/omer.jpg", "Frontend Developer"),
-            ("TomerNewman", "Tomer", "Newman", "test$8910",
+            ("TomerNewman", "Tomer", "Newman", "tomer1234",
              "tomer@gmail.com", "profile_pics/tomer.jpeg", "Software Developer"),
-            ("YuliSuliman", "Yuli", "Suliman", "test$3643",
+            ("YuliSuliman", "Yuli", "Suliman", "yuli1234",
              "yuli@gmail.com", "profile_pics/yuli.jpg", "Software Developer"),
-            ("MatanPeretz", "Matan", "Peretz", "test$8979",
+            ("MatanPeretz", "Matan", "Peretz", "matan1234",
              "matan@gmail.com", "profile_pics/matan.jpg", "Backend Developer")
         ]
 
