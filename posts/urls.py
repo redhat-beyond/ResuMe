@@ -4,6 +4,7 @@ from .views import (
     PostDetailView,
     ResumeCreateView,
     ResumeUpdateView,
+    CommentCreateView,
 )
 from . import views
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('post/resume/<int:pk>/update/', ResumeUpdateView.as_view(), name='resume-update'),
     path('about/', views.about, name='posts-about'),
     path('search/', views.search, name='posts-search'),
+    path('post/<int:post_pk>/comment/', CommentCreateView.as_view(), name='comment-create'),
 ]
