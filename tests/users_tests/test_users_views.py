@@ -44,7 +44,7 @@ class TestProfileServerResponse:
         assert response.status_code == 200
         assert 'posts/feed.html', 'posts/post_list.html' in response.template_name
 
-    @pytest.mark.parametrize('url', ['profile', 'direct', 'edit-profile'])
+    @pytest.mark.parametrize('url', ['profile', 'edit-profile'])
     def test_redirections_to_login_page_for_not_logget_in_user(self, client, url):
         response = client.get(f'/{url}/')
         assert response.status_code == 302
@@ -52,7 +52,7 @@ class TestProfileServerResponse:
         response = client.get(response.url)
         assert 'users/login.html' in response.template_name
 
-    @pytest.mark.parametrize('url', ['profile', 'direct', 'edit-profile'])
+    @pytest.mark.parametrize('url', ['profile', 'edit-profile'])
     def test_redirect_unauthorized_user(self, client, url):
         response = client.get(f'/{url}/')
         assert response.status_code == 302
@@ -61,7 +61,6 @@ class TestProfileServerResponse:
         assert 'users/login.html' in response.template_name
 
     @pytest.mark.parametrize('url, template_file', [('profile', 'users/profile.html'),
-                                                    ('direct', 'direct_message/home.html'),
                                                     ('edit-profile', 'users/edit-profile.html')
                                                     ]
                              )
