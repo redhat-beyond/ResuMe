@@ -4,11 +4,17 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
 from users.models import Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
+from posts.models import Post
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'users/profile_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts_list'] = Post.objects.filter(author=self.get_object().user)
+        return context
 
     def get_slug_field(self):
         """Get the name of a slug field to be used to look up by slug."""
@@ -17,7 +23,8 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html', {'title': 'profile'})
+    posts_list = Post.objects.filter(author=request.user)
+    return render(request, 'users/profile.html', {'title': 'profile', 'posts_list': posts_list})
 
 
 def login(request):
