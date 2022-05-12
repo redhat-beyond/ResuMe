@@ -8,11 +8,9 @@
 }
 
 .media-body{
-  width: 600px;
-  min-width: 600px;
   padding: 20px;
   background-color: white;
-  border-radius: 1rem 0rem 0rem 1rem;
+  border-radius: 1rem;
 }
 
 .comments-block{
@@ -75,4 +73,67 @@
 
 .comment-content{
   padding: 5px 0px 0px 5px;
+}
+
+.menu-nav {
+  place-self: end;
+}
+
+.menu-item {
+  color: #FCC;
+  padding: 3px;
+}
+
+.three-dots {
+}
+
+.three-dots:after {
+  cursor: pointer;
+  color: #444;
+  content: '\2807';
+  font-size: 20px;
+  padding: 0 5px;
+}
+
+.dropdown-link {
+  text-decoration: none;
+  color: white;
+}
+
+.dropdown-link div {
+  padding: 2px;
+}
+
+.dropdown {
+  margin-left: 5px;
+  display: flex;
+  float: left;
+  position: absolute;
+  flex-direction: column;
+  outline: none;
+  z-index: -1;
+  opacity: 0;
+  max-height: 0;
+  transition: z-index 0.3s, opacity 0.3s, max-height 5s;
+}
+
+.dropdown-container:focus {
+  outline: none;
+}
+
+.dropdown-container:focus .dropdown {
+  opacity: 1;
+  z-index: 100;
+  max-height: 100vh;
+  transition: z-index 0.2s, opacity 0.2s, max-height 0.2s;
+}
+
+.post-header {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.file-and-comments {
+  display: grid;
+  grid-template-columns: auto auto;
 }

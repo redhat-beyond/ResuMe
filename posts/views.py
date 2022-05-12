@@ -4,7 +4,8 @@ from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
-    UpdateView
+    UpdateView,
+    DeleteView
 )
 from .models import Post, Resume, Comment
 from django.contrib.auth.decorators import login_required
@@ -26,6 +27,17 @@ class PostDetailView(DetailView):
     model = Post
     # Django's default template name - posts/post_detail.html
     context_object_name = 'post'
+
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    # Django's default template name - posts/post_confirm_delete.html
+    context_object_name = 'post'
+    success_url = '/'
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
 
 
 class ResumeCreateView(LoginRequiredMixin, CreateView):
@@ -55,9 +67,7 @@ class ResumeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.author:
-            return True
-        return False
+        return self.request.user == post.author
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):

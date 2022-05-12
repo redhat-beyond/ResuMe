@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from conftest import new_poll, new_user
 
+
 USERNAME = "testuser"
 FIRSTNAME = "Test"
 LASTNAME = "User"
