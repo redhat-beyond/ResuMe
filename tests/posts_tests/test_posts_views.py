@@ -88,3 +88,19 @@ class TestPostViews:
         assert create_comment_response.status_code == 200
         assertTemplateUsed(create_comment_response, 'posts/comment_form.html')
         client.logout()
+
+    def test_not_author_post_delete_view(self, client, persist_resume):
+        not_author_user = User(username='not_author_user', first_name='test', last_name='test',
+                               password='test', email='user@email.com')
+        not_author_user.save()
+        client.force_login(not_author_user)
+        post_delete_path = f'/post/{persist_resume.pk}/delete/'
+        post_delete_response = client.get(post_delete_path)
+        assert post_delete_response.status_code == 403
+
+    def test_author_post_delete_view(self, client, persist_user, persist_resume):
+        client.force_login(persist_user)
+        post_delete_path = f'/post/{persist_resume.pk}/delete/'
+        post_delete_response = client.get(post_delete_path)
+        assert post_delete_response.status_code == 200
+        assertTemplateUsed(post_delete_response, 'posts/post_confirm_delete.html')
