@@ -74,6 +74,13 @@
             Profile
           </a>
 
+          <a href="{% url 'direct-message-home' %}" {%if title == "direct"%} class="active"> {% endif %}
+            <li class="icon"> 
+              <i class="ri-chat-1-line"></i>
+            </li>
+            Direct
+          </a>
+
           <a href="{% url 'posts-search' %}" {%if title == "search"%} class="active"> {% endif %}
             <li class="icon"> 
               <i class="ri-search-line"></i>

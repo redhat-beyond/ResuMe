@@ -45,9 +45,22 @@ def new_user():
 
 
 @pytest.fixture
+def new_second_user():
+    user = User(username='second_user', first_name='second', last_name='user', email='email@gmail.com')
+    user.set_password('second_pass')
+    return user
+
+
+@pytest.fixture
 def persist_user(new_user):
     new_user.save()
     return new_user
+
+
+@pytest.fixture
+def persist_second_user(new_second_user):
+    new_second_user.save()
+    return new_second_user
 
 
 @pytest.fixture
