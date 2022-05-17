@@ -30,6 +30,13 @@ LONG_COMMENT = "test test test test test test test test test test test test test
     " test test test test test test test test test test test test test test test test test test test"
 
 
+RATER_USERNAME = "DavidGueta"
+RATER_FIRSTNAME = "David"
+RATER_LASTNAME = "Gueta"
+RATER_PASSWORD = "david123"
+RATER_EMAIL = "davidg@gmail.com"
+
+
 @pytest.fixture
 def new_user():
     user = User(username=USERNAME, first_name=FIRSTNAME, last_name=LASTNAME, email=EMAIL)
@@ -56,9 +63,22 @@ def persist_resume(new_resume):
 
 
 @pytest.fixture
-def new_rating(new_resume, new_user):
+def new_rater():
+    user = User(username=RATER_USERNAME, first_name=RATER_FIRSTNAME, last_name=RATER_LASTNAME, email=RATER_EMAIL)
+    user.set_password(RATER_PASSWORD)
+    return user
+
+
+@pytest.fixture
+def persist_rater(new_rater):
+    new_rater.save()
+    return new_rater
+
+
+@pytest.fixture
+def new_rating(new_resume, new_rater):
     return Rating(
-        author=new_user,
+        author=new_rater,
         resume=new_resume,
         design_rating=5,
         skill_relevance_rating=5,
@@ -70,6 +90,7 @@ def new_rating(new_resume, new_user):
 @pytest.fixture
 def persist_rating(new_rating):
     new_rating.author.save()
+    new_rating.resume.author.save()
     new_rating.resume.save()
     new_rating.save()
     return new_rating

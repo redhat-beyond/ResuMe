@@ -1,0 +1,17 @@
+ .rating {
+    margin: 15px auto;
+    width: 100%;
+    max-width: 500px;
+    border: 3px solid #b3b1b1;
+    height: 30px;
+  }
+
+  .rating_score {
+    font-weight: bold;
+  }
+
+  .ratings-block{
+      background: rgba(255, 255, 255, 0.74);
+      border-radius: 0.5rem;
+      padding: 5px;   
+  }

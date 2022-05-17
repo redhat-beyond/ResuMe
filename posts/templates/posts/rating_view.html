@@ -1,0 +1,34 @@
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'posts/rating.css' %}">
+{% endblock styles %}
+{% block content %}
+<div class="ratings-block">
+    <div class="rating">
+        Average design rating: 
+        <label class="rating_score">
+            {{ post.resume.get_design_rating|floatformat:"-2" }} 
+        </label>
+    </div>
+    <div class="rating">
+        Average skill relevance rating: 
+        <label class="rating_score">
+            {{ post.resume.get_skill_relevance_rating|floatformat:"-2" }} 
+        </label>
+    </div>
+    <div class="rating">
+        Average grammar rating: 
+        <label class="rating_score">
+            {{ post.resume.get_grammar_rating|floatformat:"-2" }} 
+        </label>
+    </div>
+    <div class="rating">
+        Average conciseness rating: 
+        <label class="rating_score">
+            {{ post.resume.get_conciseness_rating|floatformat:"-2" }} 
+        </label>
+    </div>
+</div>
+{% endblock content %}
