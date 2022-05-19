@@ -2,43 +2,61 @@ import pytest
 from pytest_django.asserts import assertTemplateUsed
 from django import urls
 from django.contrib.auth.models import User
-
 from conftest import EMPTY_COMMENT, LONG_COMMENT, VALID_COMMENT
 
 
 @pytest.mark.django_db
 class TestViews:
-    def test_feed_view(self, client):
-        response = client.get('/')
-        assert response.status_code == 200
 
-    def test_about_view(self, client):
-        response = client.get('/about/')
-        assert response.status_code == 200
+    def test_feed_view_loaded(self, client):
+        feed_response = client.get('/')
+        assert feed_response.status_code == 200
+        assert 'posts/feed.html' in feed_response.template_name
 
-    def test_resume_detail_view(self, client, persist_resume):
+    def test_about_view_loaded(self, client):
+        about_response = client.get('/about/')
+        assert about_response.status_code == 200
+        assertTemplateUsed(about_response, 'posts/about.html')
+
+    def test_resume_detail_view_loaded_and_template(self, client, persist_resume):
         resume_detail_path = f'/post/{persist_resume.pk}/'
         resume_detail_response = client.get(resume_detail_path)
         assert resume_detail_response.status_code == 200
+        assert 'posts/post_detail.html' in resume_detail_response.template_name
 
-    def test_poll_detail_view(self, client, persist_poll):
+    def test_poll_detail_view_loaded_and_template(self, client, persist_poll):
         poll_detail_path = f'/post/{persist_poll.pk}/'
         poll_detail_response = client.get(poll_detail_path)
         assert poll_detail_response.status_code == 200
+        assert 'posts/post_detail.html' in poll_detail_response.template_name
 
+    def test_non_existing_resume(self, client, persist_resume):
+        resume_detail_path = f'/post/{persist_resume.pk}/'
+        persist_resume.delete()
+        resume_detail_response = client.get(resume_detail_path)
+        assert resume_detail_response.status_code == 404
 
-@pytest.mark.django_db()
-class TestPostViews:
+    def test_non_existing_poll(self, client, persist_poll):
+        poll_detail_path = f'/post/{persist_poll.pk}/'
+        persist_poll.delete()
+        poll_detail_response = client.get(poll_detail_path)
+        assert poll_detail_response.status_code == 404
+
     def test_resume_creation_view_with_authenticated_user(self, client, persist_user):
         client.force_login(persist_user)
         resume_creation_path = urls.reverse('resume-create')
-        assert client.get(resume_creation_path).status_code == 200
+        resume_creation_response = client.get(resume_creation_path)
+        assert resume_creation_response.status_code == 200
+        assertTemplateUsed(resume_creation_response, 'posts/resume_form.html')
         client.logout()
 
     def test_resume_creation_view_without_authenticated_user(self, client):
         resume_creation_path = urls.reverse('resume-create')
-        response = client.get(resume_creation_path)
-        assert response.status_code == 302
+        resume_creation_response = client.get(resume_creation_path)
+        assert resume_creation_response.status_code == 302
+        assert resume_creation_response.url == '/login/?next=/post/new/resume'
+        resume_creation_response = client.get('/login/?next=/post/new/resume/')
+        assertTemplateUsed(resume_creation_response, 'users/login.html')
 
     def test_not_author_resume_update_view(self, client, persist_resume):
         not_author_user = User(username='not_author_user', first_name='test', last_name='test',
