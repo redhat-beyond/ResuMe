@@ -9,7 +9,6 @@ from django.views.generic import (
 )
 from .models import Post, Resume, Comment, Rating
 from django import forms
-from django.contrib.auth.decorators import login_required
 
 
 class PostListView(ListView):
@@ -126,6 +125,13 @@ def about(request):
     return render(request, 'posts/about.html', {'title': 'about'})
 
 
-@login_required
 def search(request):
-    return render(request, 'posts/search.html', {'title': 'search'})
+    if request.method == "GET":
+        searched = request.GET['searched']
+        posts_by_description = Post.objects.filter(description__contains=searched)
+        posts_by_user = Post.objects.filter(author__username__contains=searched)
+        posts_by_user_profession = Post.objects.filter(author__profile__profession__contains=searched)
+        posts = (posts_by_description.union(posts_by_user)).union(posts_by_user_profession)
+        return render(request, 'posts/search.html', {'searched': searched, 'posts': posts})
+    else:
+        return render(request, 'posts/search.html', {})
