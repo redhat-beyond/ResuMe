@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'direct_message/message.css' %}">
+{% endblock styles %}
+{% block content %}
+    <h1 class="chat-headline">Messages with {{ send_to }}</h1>
+    {% for message in direct_messages %}
+        <div>
+            <a class="sender-name">{{ message.sender.username }} : </a>
+            <a class="message-text">{{ message.message_text }}</a>
+        </div>
+        <a class="creation-date">{{ message.creation_date }}</a>
+    {% endfor %}
+    <a class="new-message" href='new/{{message.receiver.pk}}'> New Message </a>
+{% endblock content %}

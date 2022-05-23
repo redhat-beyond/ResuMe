@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'direct_message/message.css' %}">
+{% endblock styles %}
+{% block content %}
+    <h1 class="users-headline">Chats</h1>
+    {% for user in object_list %}
+        <div>
+            <img class="rounded-circle" src="{{ user.profile.profile_pic.url }}">
+            <button class="btn btn-primary" onclick="window.location.href='/direct/{{ user.id }}'">{{ user.username }}</button>
+        </div>      
+    {% endfor %}
+{% endblock content %}
