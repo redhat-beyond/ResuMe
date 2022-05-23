@@ -1,5 +1,5 @@
 import pytest
-from posts.models import Resume, Rating, Poll, PollFile
+from posts.models import Resume, Rating, Poll, PollFile, Post
 from django.contrib.auth.models import User
 from direct_message.models import Message
 from django.utils import timezone
@@ -73,6 +73,18 @@ def persist_resume(new_resume):
     new_resume.author.save()
     new_resume.save()
     return new_resume
+
+
+@pytest.fixture
+def new_post(new_user):
+    return Post(author=new_user, description=DESCRIPTION, date_posted=CREATION_DATE)
+
+
+@pytest.fixture
+def persist_post(new_post):
+    new_post.author.save()
+    new_post.save()
+    return new_post
 
 
 @pytest.fixture
