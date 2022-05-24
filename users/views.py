@@ -1,6 +1,18 @@
 from django.shortcuts import render, redirect
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+from django.views.generic import DetailView
+from users.models import Profile
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = 'users/profile_details.html'
+
+    def get_slug_field(self):
+        """Get the name of a slug field to be used to look up by slug."""
+        return 'user__username'
 
 
 @login_required

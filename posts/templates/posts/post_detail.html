@@ -9,7 +9,7 @@
                 <div class="post-header">
                     <div class="article-metadata">
                         <img class="rounded-circle article-img" src="{{ post.author.profile.profile_pic.url }}">
-                        <a class="mr-2" href="#">{{ post.author }}</a>
+                        <a class="mr-2" href="/users/{{ post.author.username }}/">{{ post.author }}</a>
                         <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                     </div>
                     <div class="menu-nav">
@@ -49,7 +49,7 @@
                             {% for comment in post.comment_set.all %}
                               <div class="comment-data">
                                 <img class="rounded-circle article-img" src="{{ comment.author.profile.profile_pic.url }}">
-                                <a class="mr-2" href="#">{{ comment.author }}</a>
+                                <a class="mr-2" href="/users/{{ comment.author.username }}/">{{ comment.author }}</a>
                                 <hr class="comment-hr">
                                 <p class="comment-content">{{ comment.comment_text }}</p>
                               </div>

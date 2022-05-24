@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block styles %}
+{% endblock styles %}
+
+{% block content %}
+
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ object.profile_pic.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ object.user.username }}</h2>
+          <hr>
+          <h4>Profession</h4>
+          <p class="text-secondary">{{object.profession }}</p>
+          <h4>About Me</h4>
+          <p class="text-secondary">{{object.bio }}</p>
+          <h4>Email</h4>
+          <p class="text-secondary">{{ object.user.email }}</p>
+        </div>
+      </div>
+    </div>    
+{% endblock content %}
