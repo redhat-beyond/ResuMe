@@ -47,7 +47,7 @@
 .btn-secondary{
   margin-top: 5px;
   border-radius: 0.5rem;
-  width: 100%;
+  width: 93%;
 }
 
 .comment-data{
@@ -97,14 +97,6 @@ input {
 ::placeholder {
   color: rgb(39, 36, 36);
   opacity: 0.7; 
-}
-
-button {
-  background-color: #ffffff;
-  all: unset;
-  cursor: pointer;
-  width: 44px;
-  height: 44px;
 }
 
 svg {
